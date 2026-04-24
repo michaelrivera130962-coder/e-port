@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mikey Rivera — Fashion Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --lime: #c8f400;
+      --orange: #ff4d00;
+      --pink: #ff2d78;
+      --blue: #0038ff;
+      --mid: #1a1a1a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      width: 14px; height: 14px;
+      background: var(--lime);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--lime);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.2s, height 0.2s;
+      mix-blend-mode: difference;
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: var(--lime);
+      color: var(--black);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+      position: relative;
+      z-index: 10;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 18s linear infinite;
+    }
+    .marquee-track span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      padding: 0 30px;
+    }
+    .marquee-track span.dot { color: var(--orange); }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--lime);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 10vw, 9rem);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    .hero-name .line2 { color: var(--lime); }
+    .hero-subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #aaa;
+      margin-top: 30px;
+      max-width: 380px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      padding: 6px 14px;
+      border: 1px solid #333;
+      border-radius: 2px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .hero-tag:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--black);
+    }
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--pink) 50%, var(--blue) 100%);
+      opacity: 0.15;
+    }
+    .hero-big-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(8rem, 18vw, 18rem);
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.08);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      user-select: none;
+      position: absolute;
+    }
+    .hero-accent-box {
+      width: 200px; height: 200px;
+      border: 2px solid var(--lime);
+      position: absolute;
+      top: 20%; right: 15%;
+      animation: spin 20s linear infinite;
+    }
+    .hero-accent-dot {
+      width: 12px; height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 30%; left: 20%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(2.5); opacity: 0.5; }
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+    }
+    .scroll-hint::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: #555;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      padding: 0 50px;
+      margin: 80px 0 50px;
+    }
+    .section-divider::before, .section-divider::after {
+      content: '';
+      height: 1px;
+      background: #222;
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: #555;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ABOUT */
+    .about {
+      padding: 80px 50px;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .about-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 12rem;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px #222;
+      user-select: none;
+    }
+    .about-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1;
+      margin-bottom: 30px;
+    }
+    .about-heading .accent { color: var(--lime); }
+    .about-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+    .about-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid #222;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: #555;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    /* ARTIFACTS */
+    .artifacts-section {
+      padding: 0 50px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+    .artifact-card {
+      background: var(--mid);
+      padding: 50px 40px;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: background 0.3s;
+    }
+    .artifact-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .artifact-card:nth-child(1)::before { background: var(--lime); }
+    .artifact-card:nth-child(2)::before { background: var(--orange); }
+    .artifact-card:nth-child(3)::before { background: var(--pink); }
+    .artifact-card:nth-child(4)::before { background: var(--blue); }
+    .artifact-card:hover { background: #111; }
+    .artifact-card:hover::before { transform: scaleX(1); }
+    .artifact-card:hover .artifact-arrow { transform: translate(5px, -5px); }
+    .artifact-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      color: transparent;
+      -webkit-text-stroke: 1px #333;
+      line-height: 1;
+      margin-bottom: 30px;
+    }
+    .artifact-card:nth-child(1):hover .artifact-num { -webkit-text-stroke-color: var(--lime); }
+    .artifact-card:nth-child(2):hover .artifact-num { -webkit-text-stroke-color: var(--orange); }
+    .artifact-card:nth-child(3):hover .artifact-num { -webkit-text-stroke-color: var(--pink); }
+    .artifact-card:nth-child(4):hover .artifact-num { -webkit-text-stroke-color: var(--blue); }
+    .artifact-type {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+    .artifact-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+    .artifact-desc {
+      font-size: 0.9rem;
+      color: #777;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+    .artifact-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .artifact-arrow {
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #1a1a1a;
+      padding: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+    }
+    .footer-name span { color: var(--lime); }
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: #444;
+      letter-spacing: 0.1em;
+    }
+    .footer-major {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: #444;
+      letter-spacing: 0.1em;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    /* NOISE */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .about { grid-template-columns: 1fr; gap: 20px; }
+      .about-number { display: none; }
+      .artifacts-grid { grid-template-columns: 1fr; }
+      .hero-left { padding: 40px 25px; }
+      .about, .artifacts-section { padding-left: 25px; padding-right: 25px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+      .footer-major { text-align: center; }
+      .section-divider { padding: 0 25px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>FAST FASHION</span><span class="dot">✦</span>
+      <span>ENVIRONMENTAL IMPACT</span><span class="dot">✦</span>
+      <span>MIKEY RIVERA</span><span class="dot">✦</span>
+      <span>FMPD @ FSU</span><span class="dot">✦</span>
+      <span>FASHION RESEARCH</span><span class="dot">✦</span>
+      <span>CONSCIOUS CONSUMERISM</span><span class="dot">✦</span>
+      <span>FAST FASHION</span><span class="dot">✦</span>
+      <span>ENVIRONMENTAL IMPACT</span><span class="dot">✦</span>
+      <span>MIKEY RIVERA</span><span class="dot">✦</span>
+      <span>FMPD @ FSU</span><span class="dot">✦</span>
+      <span>FASHION RESEARCH</span><span class="dot">✦</span>
+      <span>CONSCIOUS CONSUMERISM</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">ePortfolio — Spring 2026</p>
+      <h1 class="hero-name">
+        MIKEY<br>
+        <span class="line2">RIVERA</span>
+      </h1>
+      <p class="hero-subtitle">
+        Fashion Marketing & Product Development student at FSU. Passionate about the business of fashion — and holding it accountable for its environmental footprint.
+      </p>
+      <div class="hero-tags">
+        <span class="hero-tag">Fast Fashion</span>
+        <span class="hero-tag">Sustainability</span>
+        <span class="hero-tag">Fashion Marketing</span>
+        <span class="hero-tag">Advocacy</span>
+      </div>
+      <p class="scroll-hint">SCROLL TO EXPLORE</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-big-text">MODE</div>
+      <div class="hero-accent-box"></div>
+      <div class="hero-accent-dot"></div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal">
+    <span></span>
+    <span class="section-label">// about me</span>
+    <span></span>
+  </div>
+
+  <section class="about reveal">
+    <div class="about-number">01</div>
+    <div class="about-content">
+      <h2 class="about-heading">THE PERSON<br>BEHIND THE <span class="accent">PAGE</span></h2>
+      <p class="about-body">
+        I'm Mikey Rivera — a college freshman majoring in Fashion Marketing & Product Development at Florida State University. I've been enamored with the world of fashion for the past two years, and over the past few months I've seriously started to consider it as a career path.
+      </p>
+      <p class="about-body">
+        But passion without accountability means nothing to me. I'm outspoken about the environment, human rights, and body positivity — and I believe the fashion industry has a responsibility to do better. This portfolio represents my first deep dive into that tension: between loving fashion and demanding it be better.
+      </p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-num">600%</div>
+          <div class="stat-label">Increase in clothing<br>purchased per person<br>since the 80s</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2ND</div>
+          <div class="stat-label">Most polluting<br>industry in the<br>world</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">8%</div>
+          <div class="stat-label">Of global carbon<br>emissions from<br>clothing production</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal">
+    <span></span>
+    <span class="section-label">// portfolio artifacts</span>
+    <span></span>
+  </div>
+
+  <section class="artifacts-section reveal">
+    <div class="artifacts-grid">
+
+      <a href="Essay.pdf" target="_blank" class="artifact-card">
+        <div class="artifact-num">01</div>
+        <div class="artifact-type">Research Essay</div>
+        <div class="artifact-title">THE RISE OF FAST FASHION</div>
+        <div class="artifact-desc">An in-depth analysis of fast fashion's environmental impact — from factory pollution and microplastics to consumer overconsumption and the culture that fuels it.</div>
+        <div class="artifact-cta">Read Essay <span class="artifact-arrow">↗</span></div>
+      </a>
+
+      <a href="Artifact1.pdf" target="_blank" class="artifact-card">
+        <div class="artifact-num">02</div>
+        <div class="artifact-type">Poem</div>
+        <div class="artifact-title">THE BAY</div>
+        <div class="artifact-desc">A poem about environmental degradation — a city's industrial growth slowly silencing the natural beauty it once held.</div>
+        <div class="artifact-cta">Read Poem <span class="artifact-arrow">↗</span></div>
+      </a>
+
+      <a href="Artifact2.pdf" target="_blank" class="artifact-card">
+        <div class="artifact-num">03</div>
+        <div class="artifact-type">Personal Essay</div>
+        <div class="artifact-title">WHY I WRITE</div>
+        <div class="artifact-desc">A personal reflection on finding my voice — and realizing that writing isn't just something I love, it's a tool for inspiring real change.</div>
+        <div class="artifact-cta">Read Essay <span class="artifact-arrow">↗</span></div>
+      </a>
+
+      <a href="Reflection.pdf" target="_blank" class="artifact-card">
+        <div class="artifact-num">04</div>
+        <div class="artifact-type">Reflection</div>
+        <div class="artifact-title">LOOKING BACK, MOVING FORWARD</div>
+        <div class="artifact-desc">A letter reflecting on my research process, the challenges of organizing complex ideas, and how this semester deepened my passion for the fashion world.</div>
+        <div class="artifact-cta">Read Reflection <span class="artifact-arrow">↗</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <div class="footer-name">MIKEY <span>RIVERA</span></div>
+    <div class="footer-copy">© 2026 — ALL RIGHTS RESERVED</div>
+    <div class="footer-major">Fashion Marketing & Product Development<br>Florida State University</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      setTimeout(() => {
+        ring.style.left = e.clientX + 'px';
+        ring.style.top = e.clientY + 'px';
+      }, 80);
+    });
+    document.querySelectorAll('a, .hero-tag').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; });
+    });
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
